@@ -80,15 +80,40 @@ function CardContainer () {
 
   let [ highScore, setHighScore] = useState(0);
 
-  let handleClick = () => {
-    
+  // useEffect(() => {
+  //   return (
+  //     scrambleArray()
+  //   )
+  // })
+
+  let handleClick = (event) => {
+    let itemToUpdate = event.target.getAttribute('data-index');
+    let temp = [...block]
+
+    if (block[itemToUpdate].clicked) {
+      manageScore('reset');
+    } else {
+      temp[itemToUpdate].clicked = true;
+      manageScore('increment');
+      setBlock(temp);
+    }
   }
 
-  let cards = block.map(item => (
+  let manageScore = (status) => {
+    console.log(status)
+    if (status === 'reset') {
+      setHighScore(0);
+    } else {
+      setHighScore(highScore + 1);
+    }
+  }
+
+  let cards = block.map((item, index) => (
     <Card 
       name={item.name} 
       image={item.image} 
       key={item.id}
+      index={index}
       handleClick={handleClick}
     />
   ))
