@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import uniqid from 'uniqid'
 import ScoreTracker from './scoreTracker'
 import Card from './card'
@@ -86,7 +86,7 @@ function CardContainer () {
 
   let handleClick = (event) => {
     let itemToUpdate;
-    
+
     if(event.target.className !== 'card') {
       itemToUpdate = event.target.parentNode.getAttribute('data-index');
     } else {
@@ -156,14 +156,6 @@ function CardContainer () {
     ));
 
     setBlock(temp);
-  }
-
-  useEffect(() => {
-    scrambleArray()
-  },[])
-
-  function lol () {
-    console.log('hi')
   }
 
   return (
