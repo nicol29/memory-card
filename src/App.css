@@ -1,6 +1,7 @@
 body {
   margin: 0;
-  background-color: lightgray;
+  height: 100%;
+  background-image: url('./images/background.jpg');
 }
 
 .App:first-child {
@@ -11,6 +12,9 @@ body {
 
 h1 {
   text-align: center;
+  font-family: 'Minecraft Ten', Cambria;
+  font-size: 3rem;
+  color: white;
 }
 
 .card-container {
@@ -33,4 +37,19 @@ img {
   align-items: center;
   padding: 20px;
   border-radius: 10px;
+  font-family: 'Minecraftten', Cambria;
+  font-weight: Bold;
+}
+
+.score {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+  font-family: 'Minecraftten', Cambria;
+  font-size: 1.15rem;
+  color: white;
+}
+
+.score :last-child {
+  margin-left: 20px;
 }

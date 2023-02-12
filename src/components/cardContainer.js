@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import uniqid from 'uniqid'
+import ScoreTracker from './scoreTracker'
 import Card from './card'
 
 function CardContainer () {
@@ -78,16 +79,20 @@ function CardContainer () {
     }
   ])
 
-  let [ highScore, setHighScore] = useState(0);
-
-  // useEffect(() => {
-  //   return (
-  //     scrambleArray()
-  //   )
-  // })
+  let [ score, setScore] = useState({
+    currentScore: 0,
+    highScore: 0
+  });
 
   let handleClick = (event) => {
-    let itemToUpdate = event.target.getAttribute('data-index');
+    let itemToUpdate;
+    
+    if(event.target.className !== 'card') {
+      itemToUpdate = event.target.parentNode.getAttribute('data-index');
+    } else {
+      itemToUpdate = event.target.getAttribute('data-index');
+    }
+
     let temp = [...block]
 
     if (block[itemToUpdate].clicked) {
@@ -100,12 +105,23 @@ function CardContainer () {
   }
 
   let manageScore = (status) => {
-    console.log(status)
     if (status === 'reset') {
-      setHighScore(0);
+      let temp = score;
+      temp.currentScore = 0;
+
+      resetGame();
     } else {
-      setHighScore(highScore + 1);
+      let temp = score;
+
+      if(temp.currentScore === temp.highScore){
+        temp.currentScore ++;
+        temp.highScore = temp.currentScore;
+      } else {
+        temp.currentScore ++;
+      }
+      setScore(temp);
     }
+    console.log('Score: ' + score.currentScore + ' High: ' + score.highScore) 
   }
 
   let cards = block.map((item, index) => (
@@ -117,6 +133,7 @@ function CardContainer () {
       handleClick={handleClick}
     />
   ))
+
 
   let scrambleArray = () => {
     let scrambledArray = [];
@@ -131,12 +148,33 @@ function CardContainer () {
     return scrambledArray
   }
 
+  let resetGame = () => {
+    let temp = block;
+
+    temp.map(item => (
+      item.clicked = false
+    ));
+
+    setBlock(temp);
+  }
+
+  useEffect(() => {
+    scrambleArray()
+  },[])
+
+  function lol () {
+    console.log('hi')
+  }
+
   return (
     <div>
       <header>
       <h1>Minecraft Memory</h1>
       </header>
-
+      <ScoreTracker 
+        currentScore={score.currentScore}
+        highScore={score.highScore}
+      />
       <div className="card-container">
         {scrambleArray()}
       </div>
